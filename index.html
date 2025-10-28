@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5200501 - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #000000; color: #ffffff; font-family: 'Inter', 'Roboto', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; width: 100vw; overflow-x: hidden; }
+        .container { width: 100%; max-width: 1200px; background-color: #1a1a1a; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        .header { position: relative; height: 200px; overflow: hidden; }
+        .header-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #2a2a2a 0%, #404040 100%); opacity: 0.8; }
+        .header-content { position: relative; z-index: 2; display: flex; align-items: flex-end; height: 100%; padding: 20px; gap: 20px; }
+        .profile-picture-wrapper { flex-shrink: 0; }
+        .profile-picture { width: 130px; height: 130px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, 0.3); object-fit: cover; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
+        .header-text { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; }
+        .name { font-size: 48px; font-weight: 700; font-family: 'Playfair Display', 'Cinzel', serif; letter-spacing: 2px; color: #ffffff; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+        .subtitle { font-size: 14px; color: #e0e0e0; font-weight: 400; }
+        .social-icons { display: flex; gap: 12px; margin-top: 8px; }
+        .social-icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; color: #ffffff; font-size: 16px; transition: transform 0.2s, color 0.2s; }
+        .social-icon:hover { transform: scale(1.2); color: #a0a0a0; }
+        .main-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 30px; background-color: #000000; }
+        .hellfire-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .skull { font-size: 36px; filter: drop-shadow(0 0 10px #8B0000); }
+        .hellfire-title { font-size: 42px; font-weight: 700; font-family: 'Playfair Display', 'Cinzel', serif; color: #8B0000; letter-spacing: 3px; text-transform: uppercase; text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; animation: fire-glow 2s ease-in-out infinite alternate; }
+        @keyframes fire-glow { from { text-shadow: 0 0 10px #8B0000, 0 0 20px #8B0000, 0 0 30px #8B0000; } to { text-shadow: 0 0 15px #ff0000, 0 0 25px #ff0000, 0 0 35px #ff0000, 0 0 45px #ff0000; } }
+        .music-player { display: flex; align-items: center; gap: 20px; background: rgba(40, 40, 40, 0.8); padding: 20px; border-radius: 15px; border: 1px solid #444; margin-bottom: 20px; }
+        .music-disk { position: relative; flex-shrink: 0; }
+        .disk { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #333, #666, #333); position: relative; animation: rotate-disk 10s linear infinite; animation-play-state: paused; box-shadow: 0 0 20px rgba(139, 0, 0, 0.5); }
+        .disk-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: #000; border-radius: 50%; border: 2px solid #8B0000; }
+        @keyframes rotate-disk { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .music-info { flex: 1; }
+        .music-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .music-controls { display: flex; align-items: center; gap: 15px; }
+        .play-btn { background: #8B0000; border: none; width: 35px; height: 35px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .play-btn:hover { background: #ff0000; transform: scale(1.1); }
+        .progress-bar { flex: 1; height: 4px; background: #444; border-radius: 2px; overflow: hidden; }
+        .progress { height: 100%; width: 0%; background: #8B0000; border-radius: 2px; transition: width 0.1s linear; }
+        .image-boxes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px; }
+        .image-box { border: 2px solid #444; border-radius: 10px; overflow: hidden; background: #2a2a2a; transition: all 0.3s ease; height: 120px; position: relative; }
+        .image-box:hover { border-color: #8B0000; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3); }
+        .box-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+        .box-image:hover { transform: scale(1.05); }
+        .right-column { display: flex; flex-direction: column; gap: 15px; }
+        .search-container { display: flex; align-items: center; background-color: #f5f5f5; border-radius: 25px; padding: 8px 16px; gap: 10px; }
+        .search-input { flex: 1; border: none; background: transparent; color: #333333; font-size: 14px; outline: none; }
+        .search-input::placeholder { color: #999999; }
+        .search-button { border: none; background: transparent; color: #666666; font-size: 16px; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+        .search-button:hover { color: #333333; }
+        .section { display: flex; flex-direction: column; gap: 12px; }
+        .section-header { background: linear-gradient(135deg, #404040 0%, #666666 100%); color: #ffffff; padding: 12px 18px; border-radius: 15px; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .heart { font-size: 18px; }
+        .flower { font-size: 16px; }
+        .text-box { background: rgba(40, 40, 40, 0.8); padding: 20px; border-radius: 15px; border: 1px solid #444; }
+        .text-paragraph { font-size: 14px; line-height: 1.6; color: #e0e0e0; text-align: left; }
+        .text-paragraph u { text-decoration: underline; color: #ffffff; }
+        .page-indicator { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 20px; background-color: #000000; color: #666666; font-size: 12px; }
+        .dot { font-size: 8px; letter-spacing: 4px; }
+        .page-text { margin-left: 8px; letter-spacing: 2px; color: #8B0000; font-weight: 600; }
+        .button-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0 30px 30px 30px; background-color: #000000; }
+        .nav-button { background: linear-gradient(135deg, #404040 0%, #666666 100%); color: #ffffff; border: none; padding: 14px 20px; border-radius: 15px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(64, 64, 64, 0.3); }
+        .nav-button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(64, 64, 64, 0.5); }
+        .nav-button:active { transform: translateY(0); }
+        @media (max-width: 768px) { .main-content { grid-template-columns: 1fr; gap: 20px; padding: 20px; } .name { font-size: 36px; } .hellfire-title { font-size: 32px; } .button-container { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 20px 20px 20px; } .header-content { padding: 15px; } .profile-picture { width: 110px; height: 110px; } .music-player { flex-direction: column; text-align: center; } .image-boxes { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .container { border-radius: 10px; } .main-content { grid-template-columns: 1fr; gap: 15px; padding: 15px; } .name { font-size: 28px; } .hellfire-title { font-size: 24px; } .button-container { grid-template-columns: 1fr; gap: 8px; padding: 0 15px 15px 15px; } .nav-button { padding: 12px 16px; font-size: 14px; } .header { height: 160px; } .profile-picture { width: 90px; height: 90px; } .disk { width: 60px; height: 60px; } .music-title { font-size: 12px; } .image-boxes { grid-template-columns: 1fr; } .image-box { height: 100px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-background"></div>
+            <div class="header-content">
+                <div class="profile-picture-wrapper">
+                    <img src="https://i.ibb.co/0Vr4wj5C/rrrrr.jpg" alt="Profile Picture" class="profile-picture">
+                </div>
+                <div class="header-text">
+                    <h1 class="name">5200501</h1>
+                    <p class="subtitle">He/him, INTJ. 18-</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-patreon"></i></a>
+                        <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="left-column">
+                <div class="hellfire-header">
+                    <span class="skull">💀</span>
+                    <h2 class="hellfire-title">HELL FIRE</h2>
+                </div>
+                
+                <div class="music-player">
+                    <div class="music-disk">
+                        <div class="disk">
+                            <div class="disk-center"></div>
+                        </div>
+                    </div>
+                    <div class="music-info">
+                        <div class="music-title">The All-American Rejects - Dirty Little Secret</div>
+                        <div class="music-controls">
+                            <button class="play-btn" id="musicControl">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-boxes">
+                    <div class="image-box">
+                        <img src="https://i.ibb.co/4nyvvq6W/dims.jpg" alt="Image 1" class="box-image">
+                    </div>
+                    <div class="image-box">
+                        <img src="https://i.ibb.co/RGxSgCSK/headshot.jpg" alt="Image 2" class="box-image">
+                    </div>
+                    <div class="image-box">
+                        <img src="https://i.ibb.co/7dPXWmDF/rock.jpg" alt="Image 3" class="box-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="search...">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-header">interests <span class="heart">❤</span></h3>
+                    <div class="text-box">
+                        <p class="text-paragraph">
+                            stranger things, dwimpy kid, ac/dc, bands, games like wuwa n resident evil, katsuki, massiah from etheria, music etc.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-header">favs <span class="flower">✿</span></h3>
+                    <div class="text-box">
+                        <p class="text-paragraph">
+                            silas, <u>ciel</u>, hina, nelly, salem, jayden, <u>vince</u>, jade, brian, diego, yelena, levi, shin, mae.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-indicator">
+            <span class="dot">•</span>
+            <span class="dot">•</span>
+            <span class="dot">•</span>
+            <span class="page-text">coming soon - still in work</span>
+        </div>
+
+        <div class="button-container">
+            <button class="nav-button">Comms</button>
+            <button class="nav-button">Portfolio</button>
+            <button class="nav-button">Events</button>
+            <button class="nav-button">Shop</button>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://files.catbox.moe/rooq6v.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const musicControl = document.getElementById('musicControl');
+            const playIcon = musicControl.querySelector('i');
+            const disk = document.querySelector('.disk');
+            
+            backgroundMusic.volume = 0.5;
+            
+            musicControl.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().then(() => {
+                        playIcon.className = 'fas fa-pause';
+                        disk.style.animationPlayState = 'running';
+                    }).catch(error => {
+                        alert('Click OK to enable music playback');
+                        backgroundMusic.play().then(() => {
+                            playIcon.className = 'fas fa-pause';
+                            disk.style.animationPlayState = 'running';
+                        });
+                    });
+                } else {
+                    backgroundMusic.pause();
+                    playIcon.className = 'fas fa-play';
+                    disk.style.animationPlayState = 'paused';
+                }
+            });
+            
+            backgroundMusic.addEventListener('timeupdate', function() {
+                const progress = document.querySelector('.progress');
+                const percentage = (backgroundMusic.currentTime / backgroundMusic.duration) * 100;
+                progress.style.width = percentage + '%';
+            });
+        });
+    </script>
+</body>
+</html>
